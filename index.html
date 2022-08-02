@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Game</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .container {
+            width: 600px;
+            height: 600px;
+            margin: auto;
+        }
+
+        .box-container {
+            display: flex;
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid gray;
+        }
+
+        .box:hover {
+            background-color: rgba(128, 128, 128, 0.199);
+        }
+
+        .Team_Cross {
+            background-image: url('./cross.png');
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .Team_Tick {
+            background-image: url('./check-mark.png');
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box-container" id="0">
+            <div class="box num1">
+
+            </div>
+            <div class="box num2">
+
+            </div>
+            <div class="box num3">
+
+            </div>
+        </div>
+        <div class="box-container" id="3">
+            <div class="box num4">
+
+            </div>
+            <div class="box num5">
+
+            </div>
+            <div class="box num6">
+
+            </div>
+        </div>
+        <div class="box-container" id="6">
+            <div class="box num7">
+
+            </div>
+            <div class="box num8">
+
+            </div>
+            <div class="box num9">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var take = 0;
+        var combinationsPairs = [
+            ["123", "159", "147"],
+            ["258", "213"],
+            ["123", "369", "357"],
+            ["147", "456"],
+            ["159", "357", "258", "456"],
+            ["369", "456"],
+            ["147", "789", "357"],
+            ["258", "789"],
+            ["369", "789", "159"]
+        ];
+        $('.box').click(function () {
+            if (status == 0) {
+                if (!$(this).hasClass('Team_Cross') && !$(this).hasClass('Team_Tick')) {
+                    if (take == 0) {
+                        $(this).addClass('Team_Cross');
+                        take = 1;
+                        checkWinner($(this).index() + Number($(this).parent().attr('id')), 'Team_Cross');
+                    } else {
+                        take = 0;
+                        $(this).addClass('Team_Tick');
+                        checkWinner($(this).index() + Number($(this).parent().attr('id')), 'Team_Tick');
+                    }
+                }
+            }else{
+                alert('Game is Over !! Restart the Game')
+            }
+        })
+
+        function checkWinner(index, className) {
+            var pairs = combinationsPairs[index]
+            for (var i = 0; i < pairs.length; i++) {
+                var first = $(".num" + pairs[i].split('')[0]).hasClass(className);
+                var second = $(".num" + pairs[i].split('')[1]).hasClass(className);
+                var third = $(".num" + pairs[i].split('')[2]).hasClass(className);
+                console.log(first, second, third)
+                if (first == true && second == true && third == true) {
+                    status = 1;
+                    setTimeout(function(){
+                        alert('Winner is '+className.split('_')[0]+' '+className.split('_')[1]);
+                    },300)
+                    break;
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>
